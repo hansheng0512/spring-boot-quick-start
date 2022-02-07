@@ -3,6 +3,7 @@ package com.hansheng.springbootquickstart.student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -36,5 +37,20 @@ public class StudentService {
             throw new IllegalArgumentException("student with id  " + id + " not found");
         }
         studentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateStudent(Long studentId, String name, String email) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new IllegalArgumentException("student with id " + studentId + " not found")
+        );
+
+        if (name != null && name.length() > 0) {
+            student.setName(name);
+        }
+
+        if (email != null && email.length() > 0) {
+            student.setEmail(email);
+        }
     }
 }
