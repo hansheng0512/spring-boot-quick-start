@@ -28,6 +28,13 @@ public class StudentService {
             throw new IllegalAccessException("email taken");
         }
         studentRepository.save(student);
-        System.out.println(student);
+    }
+
+    public void deleteStudent(Long id) {
+        boolean exists = studentRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalArgumentException("student with id  " + id + " not found");
+        }
+        studentRepository.deleteById(id);
     }
 }
